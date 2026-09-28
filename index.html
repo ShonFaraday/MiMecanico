@@ -78,7 +78,7 @@ img,svg{max-width:100%}
 .intro-radar .blip{position:absolute;width:8px;height:8px;border-radius:50%;background:#4FC3F7;box-shadow:0 0 12px #4FC3F7;opacity:0;animation:blipA 1.3s infinite}
 .intro-radar .b1{top:22%;left:68%;animation-delay:.45s}.intro-radar .b2{top:70%;left:24%;animation-delay:.85s}.intro-radar .b3{top:60%;left:80%;animation-delay:1.1s}
 @keyframes blipA{0%{opacity:0;transform:scale(.4)}15%{opacity:1;transform:scale(1.3)}60%{opacity:.2}100%{opacity:0}}
-.intro-logo{position:absolute;inset:27%;color:#E8F1F6}
+.intro-logo{position:absolute;left:31%;top:31%;width:38%;height:38%;color:#E8F1F6;overflow:visible}
 .intro-logo .roof{animation:roofIn .6s 1.25s cubic-bezier(.2,.9,.3,1.3) both}
 .intro-logo .stroke{animation:draw 1.1s .35s cubic-bezier(.6,.1,.2,1) both}
 @keyframes roofIn{from{opacity:0;transform:translate(-40px,30px) scale(.9)}to{opacity:1;transform:none}}
@@ -173,7 +173,7 @@ h3{font-size:26px;font-weight:600;letter-spacing:.02em}
 .hud-ring.r2::before{content:"";position:absolute;width:10px;height:10px;border-radius:50%;background:var(--celeste);box-shadow:0 0 14px var(--celeste);top:-5px;left:calc(50% - 5px)}
 @keyframes spin{to{transform:rotate(360deg)}}
 .hud-sweep{position:absolute;inset:9%;border-radius:50%;background:conic-gradient(from 0deg,rgba(0,149,218,.3),transparent 22%);animation:spin 5s linear infinite;mask:radial-gradient(circle,transparent 30%,#000 31%);-webkit-mask:radial-gradient(circle,transparent 30%,#000 31%)}
-.hud-logo{position:absolute;inset:20%;color:var(--hueso);filter:drop-shadow(0 0 24px var(--glow))}
+.hud-logo{position:absolute;left:25%;top:25%;width:50%;height:50%;color:var(--hueso);overflow:visible;filter:drop-shadow(0 0 24px var(--glow))}
 .roof{fill:var(--celeste)}
 .stroke{fill:none;stroke:currentColor;stroke-width:15;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:var(--len);stroke-dashoffset:0}
 .hud-logo .stroke{animation:draw 1.6s 2.8s cubic-bezier(.6,.1,.2,1) both}
