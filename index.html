@@ -37,6 +37,10 @@ document.documentElement.setAttribute("data-mm",t)})();
 </script>
 <link rel="preload" href="assets/fonts/SairaCondensed-800.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/fonts/fonts.css">
+<style>:root{--img-mec:url("assets/img/mecanico.jpg")}</style>
+</head>
+<body>
+
 <style>
 :root{
   color-scheme:dark;
@@ -48,6 +52,8 @@ document.documentElement.setAttribute("data-mm",t)})();
   --sea:#11202B;--coast:#1F3544;--web:#1A2A36;--map-label:#8FA3B1;--node-fill:#070D12;
   --sky-1:#06121B;--sky-2:#0B2233;--city:#0E1D28;--city-2:#132836;--win:#2B5670;--asphalt:#10181F;--curb:#223441;--dash:#E8F1F6;
   --photo-tint:#0095DA;--photo-blend:color;
+  --sh:0 1px 0 rgba(255,255,255,.035) inset,0 18px 40px -22px rgba(0,0,0,.85),0 40px 80px -50px rgba(0,149,218,.38);
+  --grain-o:.07;--bp:rgba(0,149,218,.05);--bp-line:rgba(79,195,247,.09);--hudph-o:.5;--hudph-f:grayscale(1) contrast(1.15) brightness(.9);
   --f-display:"Saira Condensed","Arial Narrow",Impact,sans-serif;
   --f-body:"Barlow","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
@@ -63,6 +69,8 @@ document.documentElement.setAttribute("data-mm",t)})();
   --sea:#DDEBF4;--coast:#A9C4D5;--web:#D2DFE8;--map-label:#4D6070;--node-fill:#FFFFFF;
   --sky-1:#CFE8F7;--sky-2:#F3F9FD;--city:#B9D2E2;--city-2:#A3C2D6;--win:#E9F4FB;--asphalt:#3A4751;--curb:#98AAB7;--dash:#FFFFFF;
   --photo-tint:#0095DA;--photo-blend:multiply;
+  --sh:0 1px 0 #fff inset,0 14px 30px -18px rgba(11,22,32,.2),0 34px 60px -40px rgba(0,149,218,.3);
+  --grain-o:.045;--bp:rgba(0,149,218,.05);--bp-line:rgba(0,119,179,.10);--hudph-o:.38;--hudph-f:grayscale(1) contrast(1.05) brightness(1.35);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;background:var(--ink)}
@@ -468,6 +476,53 @@ footer{border-top:1px solid var(--line);padding-block:48px 90px;background:var(-
 .bubble::after{content:"✓✓";position:absolute;right:8px;bottom:3px;font-size:11px;color:#53BDEB;letter-spacing:-2px}
 .bubble b{font-weight:600}
 
+
+/* ===== ESTÉTICA v3 ===== */
+.grain{position:fixed;inset:-50%;z-index:2;pointer-events:none;opacity:var(--grain-o);mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1.4 0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 1.2s steps(6) infinite}
+@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-3%)}60%{transform:translate(-2%,-1%)}80%{transform:translate(3%,3%)}100%{transform:translate(0,0)}}
+/* sombras en capas */
+.step,.qa,.gauge-card,.proof,.note-card,.dispatch,.order,.shot,.services,.fork>div{box-shadow:var(--sh)}
+/* borde que brilla con el cursor */
+.step,.svc,.qa,.gauge-card,.proof,.note-card,.dispatch,.order,.shot,.req,.fork>div{position:relative}
+.gb{position:absolute;inset:0;border-radius:inherit;padding:1.5px;pointer-events:none;z-index:5;opacity:0;transition:opacity .35s;
+  background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%),var(--celeste-hi),rgba(0,149,218,.35) 35%,transparent 70%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+:hover>.gb{opacity:1}
+@media (hover:none){.gb{display:none}}
+/* bandas alternas */
+.band{position:relative;isolation:isolate}
+.band::before{content:"";position:absolute;left:0;right:0;top:0;height:16px;pointer-events:none;z-index:1;
+  background:repeating-linear-gradient(90deg,var(--line-2) 0 1px,transparent 1px 12px) top/100% 7px no-repeat,repeating-linear-gradient(90deg,var(--celeste) 0 2px,transparent 2px 120px) top/100% 16px no-repeat;opacity:.9}
+.band-bp{background:linear-gradient(180deg,var(--bp),transparent 40%,var(--bp)),linear-gradient(var(--bp-line) 1px,transparent 1px) 0 0/40px 40px,linear-gradient(90deg,var(--bp-line) 1px,transparent 1px) 0 0/40px 40px;border-bottom:1px solid var(--line)}
+.band-panel{background:var(--ink-2);border-bottom:1px solid var(--line)}
+.band-panel .svc{background:var(--ink)}
+.band-cel{background:linear-gradient(115deg,#006FA6 0%,#0095DA 55%,#22ABE8 100%);
+  --hueso:#fff;--t1:#EAF6FD;--t2:#DCEFFA;--grafito:#CFE7F5;--celeste:#fff;--celeste-hi:#fff;--line:rgba(255,255,255,.25);--line-2:rgba(255,255,255,.45);color:#fff}
+.band-cel::after{content:"";position:absolute;inset:0;z-index:-1;background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);background-size:32px 32px;mask-image:linear-gradient(90deg,transparent,#000 70%);-webkit-mask-image:linear-gradient(90deg,transparent,#000 70%)}
+.band-cel .req{background:rgba(255,255,255,.1);border-left-color:#fff;border-radius:0 8px 8px 0}
+.band-cel .req svg{color:#fff}
+.band-cel .bignum{-webkit-text-stroke-color:rgba(255,255,255,.35)}
+/* número grande de fondo */
+.wrap.has-num{position:relative}
+.bignum{position:absolute;right:var(--gutter);top:-.18em;z-index:-1;font-family:var(--f-display);font-weight:800;font-size:clamp(140px,22vw,300px);line-height:1;color:transparent;-webkit-text-stroke:1.5px var(--line-2);opacity:.55;pointer-events:none;letter-spacing:-.02em;user-select:none}
+@media (max-width:700px){.bignum{font-size:120px;top:-.1em;opacity:.4}}
+/* hero: foto real detrás del radar */
+.hud-photo{position:absolute;inset:9%;border-radius:50%;overflow:hidden;opacity:var(--hudph-o);
+  -webkit-mask:radial-gradient(circle,#000 42%,transparent 71%);mask:radial-gradient(circle,#000 42%,transparent 71%)}
+.hud-photo::before{content:"";position:absolute;inset:0;background:var(--img-mec) 12% 42%/auto 130% no-repeat;filter:var(--hudph-f);animation:kb 18s ease-in-out infinite alternate}
+.hud-photo::after{content:"";position:absolute;inset:0;background:#0095DA;mix-blend-mode:var(--photo-blend)}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.12) translate(3%,-2%)}}
+.hud-tag.t4{top:14%;right:-6%}
+.hud-tag .live{display:inline-block;min-width:9ch}
+.hud-tag.t2 b{font-variant-numeric:tabular-nums}
+@media (max-width:560px){.hud-tag.t1{top:1%}.hud-tag.t4{right:0;top:12.5%}}
+.hud-blip{position:absolute;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:var(--ok);box-shadow:0 0 12px var(--ok);transition:left 1.2s ease,top 1.2s ease;left:50%;top:50%}
+.hud-blip::after{content:"";position:absolute;inset:-8px;border-radius:50%;border:2px solid var(--ok);animation:bl 1.6s ease-out infinite}
+@keyframes bl{from{transform:scale(.4);opacity:1}to{transform:scale(1.6);opacity:0}}
+@media (prefers-reduced-motion:reduce){.grain{animation:none}.hud-photo::before{animation:none}}
+
 /* fab */
 .fab{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;width:60px;height:60px;border-radius:50%;background:#25D366;display:grid;place-items:center;box-shadow:0 10px 30px -6px rgba(37,211,102,.55);text-decoration:none;transition:transform .2s}
 .fab:hover{transform:scale(1.07)}
@@ -482,9 +537,6 @@ footer{border-top:1px solid var(--line);padding-block:48px 90px;background:var(-
   #intro{display:none}
 }
 </style>
-</head>
-<body>
-
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
@@ -526,6 +578,7 @@ footer{border-top:1px solid var(--line);padding-block:48px 90px;background:var(-
 </div>
 
 <div class="grid-bg" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
 <div class="glow" id="glow" aria-hidden="true"></div>
 
 <header class="topbar">
@@ -577,6 +630,7 @@ footer{border-top:1px solid var(--line);padding-block:48px 90px;background:var(-
         </div>
       </div>
       <div class="hud" aria-hidden="true">
+        <div class="hud-photo"></div>
         <div class="hud-ring"></div>
         <div class="hud-ring r2"></div>
         <div class="hud-sweep"></div>
@@ -590,8 +644,10 @@ footer{border-top:1px solid var(--line);padding-block:48px 90px;background:var(-
       <path class="stroke" style="--len:100" d="M58 330 L150 330"/>
       <circle class="stroke" style="--len:130" cx="190" cy="330" r="21"/>
     </svg>
-        <div class="hud-tag t1"><span class="dot"></span>UNIDAD <b>EN RUTA</b></div>
-        <div class="hud-tag t2">BASE · <b>LA VICTORIA</b></div>
+        <span class="hud-blip" id="uBlip"></span>
+        <div class="hud-tag t1"><span class="dot"></span>UNIDAD 02 · <b class="live" id="uState">EN RUTA</b></div>
+        <div class="hud-tag t4">DESTINO · <b class="live" id="uDest">SAN ISIDRO</b></div>
+        <div class="hud-tag t2">LAT <b id="uLat">-12.0660</b> · LON <b id="uLon">-77.0190</b></div>
         <div class="hud-tag t3">SCAN OBD · <b id="obd">OK</b></div>
       </div>
     </div>
@@ -664,7 +720,7 @@ footer{border-top:1px solid var(--line);padding-block:48px 90px;background:var(-
 
   <!-- EQUIPO / FOTOS -->
   <section id="equipo" class="scan">
-    <div class="wrap">
+    <div class="wrap has-num"><span class="bignum" aria-hidden="true">01</span>
       <div class="sec-head">
         <div>
           <p class="eyebrow">Equipo en acción</p>
@@ -698,8 +754,8 @@ footer{border-top:1px solid var(--line);padding-block:48px 90px;background:var(-
   </section>
 
   <!-- COBERTURA -->
-  <section id="cobertura" class="scan" style="padding-top:0">
-    <div class="wrap">
+  <section id="cobertura" class="scan band band-bp">
+    <div class="wrap has-num"><span class="bignum" aria-hidden="true">02</span>
       <div class="sec-head">
         <div>
           <p class="eyebrow">Centro de despacho</p>
@@ -743,8 +799,8 @@ footer{border-top:1px solid var(--line);padding-block:48px 90px;background:var(-
   </section>
 
   <!-- COMO FUNCIONA -->
-  <section id="como-funciona" class="scan" style="padding-top:0">
-    <div class="wrap">
+  <section id="como-funciona" class="scan">
+    <div class="wrap has-num"><span class="bignum" aria-hidden="true">03</span>
       <div class="sec-head">
         <div>
           <p class="eyebrow">El proceso</p>
@@ -772,8 +828,8 @@ footer{border-top:1px solid var(--line);padding-block:48px 90px;background:var(-
   </section>
 
   <!-- SERVICIOS -->
-  <section id="servicios" class="scan" style="padding-top:0">
-    <div class="wrap">
+  <section id="servicios" class="scan band band-panel">
+    <div class="wrap has-num"><span class="bignum" aria-hidden="true">04</span>
       <div class="sec-head">
         <div>
           <p class="eyebrow">Multimarca</p>
@@ -793,8 +849,8 @@ footer{border-top:1px solid var(--line);padding-block:48px 90px;background:var(-
   </section>
 
   <!-- DIAGNOSTICO -->
-  <section id="diagnostico" class="scan" style="padding-top:0">
-    <div class="wrap diag">
+  <section id="diagnostico" class="scan">
+    <div class="wrap diag has-num"><span class="bignum" aria-hidden="true">05</span>
       <div>
         <p class="eyebrow">Diagnóstico rápido</p>
         <h2 style="margin-top:14px">¿Qué le pasa a tu auto?</h2>
@@ -821,8 +877,8 @@ footer{border-top:1px solid var(--line);padding-block:48px 90px;background:var(-
   </section>
 
   <!-- REQUISITOS -->
-  <section class="scan" style="padding-top:0">
-    <div class="wrap">
+  <section class="scan band band-cel">
+    <div class="wrap has-num"><span class="bignum" aria-hidden="true">06</span>
       <div class="sec-head">
         <div>
           <p class="eyebrow">Antes de que lleguemos</p>
@@ -839,8 +895,8 @@ footer{border-top:1px solid var(--line);padding-block:48px 90px;background:var(-
   </section>
 
   <!-- FAQ -->
-  <section id="preguntas" class="scan" style="padding-top:0">
-    <div class="wrap faq-wrap">
+  <section id="preguntas" class="scan band band-bp">
+    <div class="wrap faq-wrap has-num"><span class="bignum" aria-hidden="true">07</span>
       <div class="faq-aside">
         <p class="eyebrow">Preguntas frecuentes</p>
         <h2>Lo que más nos preguntan</h2>
@@ -861,8 +917,8 @@ footer{border-top:1px solid var(--line);padding-block:48px 90px;background:var(-
   </section>
 
   <!-- PEDIDO -->
-  <section id="pedido" class="scan" style="padding-top:0">
-    <div class="wrap">
+  <section id="pedido" class="scan">
+    <div class="wrap has-num"><span class="bignum" aria-hidden="true">08</span>
       <div class="sec-head">
         <div>
           <p class="eyebrow">Pide tu mecánico</p>
@@ -920,7 +976,7 @@ footer{border-top:1px solid var(--line);padding-block:48px 90px;background:var(-
   <section id="contacto" style="padding-top:0">
     <div class="wrap">
       <div class="final">
-        <div class="bgphoto" style="background-image:url('assets/img/mecanico.jpg')"></div>
+        <div class="bgphoto" style="background-image:var(--img-mec)"></div>
         <p class="eyebrow">Atención inmediata</p>
         <h2 style="margin-top:14px">¿Tu auto falló? Nosotros vamos.</h2>
         <p>Escríbenos por WhatsApp con la marca, el modelo y tu ubicación. Te respondemos y coordinamos la visita.</p>
@@ -1024,6 +1080,32 @@ footer{border-top:1px solid var(--line);padding-block:48px 90px;background:var(-
   document.querySelectorAll(".copybtn").forEach(function(b){b.addEventListener("click",function(){var v=b.dataset.copy;var done=function(){b.textContent="copiado";setTimeout(function(){b.textContent="copiar"},1500)};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(v).then(done,function(){sel(b)})}else sel(b)})});
   function sel(b){var s=b.previousElementSibling;var r=document.createRange();r.selectNodeContents(s);var w=getSelection();w.removeAllRanges();w.addRange(r)}
 
+
+  /* ---------- ESTÉTICA: borde con brillo ---------- */
+  if(window.matchMedia&&matchMedia("(hover:hover)").matches){
+    document.querySelectorAll(".step,.svc,.qa,.gauge-card,.proof,.note-card,.dispatch,.order,.shot,.req,.fork>div").forEach(function(c){
+      var g=document.createElement("span");g.className="gb";g.setAttribute("aria-hidden","true");c.appendChild(g);
+      c.addEventListener("pointermove",function(e){var r=c.getBoundingClientRect();c.style.setProperty("--mx",(e.clientX-r.left)+"px");c.style.setProperty("--my",(e.clientY-r.top)+"px")});
+    });
+  }
+  /* ---------- HERO: datos en vivo ---------- */
+  (function(){
+    var st=document.getElementById("uState"),de=document.getElementById("uDest"),la=document.getElementById("uLat"),lo=document.getElementById("uLon"),bl=document.getElementById("uBlip");
+    if(!st)return;
+    var B=[-12.0660,-77.0190];
+    var T=[["SAN ISIDRO",-12.0970,-77.0360],["MIRAFLORES",-12.1210,-77.0300],["SURCO",-12.1450,-76.9910],["LA MOLINA",-12.0790,-76.9410],["SAN BORJA",-12.1010,-76.9990],["JESÚS MARÍA",-12.0760,-77.0500],["BARRANCO",-12.1490,-77.0210],["PUEBLO LIBRE",-12.0750,-77.0640]];
+    var i=0,ph=0,t0=0,cur=T[0];
+    function pos(lat,lon){var dx=(lon-B[1])/0.075,dy=(lat-B[0])/0.075;dx=Math.max(-1,Math.min(1,dx));dy=Math.max(-1,Math.min(1,dy));bl.style.left=(50+dx*38)+"%";bl.style.top=(50-dy*38)+"%"}
+    function show(lat,lon){la.textContent=lat.toFixed(4);lo.textContent=lon.toFixed(4);pos(lat,lon)}
+    var STATES=["SALE DE BASE","EN RUTA","EN RUTA","LLEGANDO","EN SITIO"];
+    function step(){
+      if(ph===0){cur=T[i%T.length];i++;de.textContent=cur[0];show(B[0],B[1])}
+      st.textContent=STATES[ph];
+      var k=Math.min(ph/3,1);var lat=B[0]+(cur[1]-B[0])*k+(ph>0&&ph<4?(Math.random()-.5)*.0012:0),lon=B[1]+(cur[2]-B[1])*k+(ph>0&&ph<4?(Math.random()-.5)*.0012:0);
+      show(lat,lon);ph=(ph+1)%5;
+    }
+    step();if(!reduce)setInterval(step,1500);
+  })();
   /* ---------- JOURNEY (scroll) ---------- */
   var sec=document.getElementById("ruta"),far=document.getElementById("jFar"),mid=document.getElementById("jMid"),dash=document.getElementById("jDash"),
       van=document.getElementById("jVan"),house=document.getElementById("jHouse"),w1=document.getElementById("w1"),w2=document.getElementById("w2"),
